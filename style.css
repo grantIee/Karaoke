@@ -129,19 +129,19 @@ a:hover {
 }
 
 .bl-icon-topCharts:before {
-	content: "\e000";
+	 content: url("images/bar-chart.svg") no-repeat scroll center center / 50% auto rgba(0,0,0,0);
 }
 
 .bl-icon-title:before {
-	content: "\e001";
+	content: url("images/music-player.svg") no-repeat scroll center center / 50% auto rgba(0,0,0,0)
 }
 
 .bl-icon-artist:before {
-	content: "\e002";
+	content: url("images/singer.svg") no-repeat scroll center center / 50% auto rgba(0,0,0,0);
 }
 
 .bl-icon-myPlaylist:before {
-	content: "\e003";
+	content: url("images/playlist.svg") no-repeat scroll center center / 50% auto rgba(0,0,0,0);
 }
 
 .bl-main > section .bl-icon-close {
@@ -207,7 +207,7 @@ a:hover {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-} 
+}
 
 .bl-content > ul li {
 	display: inline-block;
@@ -358,8 +358,8 @@ body {
 	top: 0;
 	left: 25%;
 	cursor: pointer;
-	-webkit-transition: width 2s; 
-	transition: width 2s; 
+	-webkit-transition: width 2s;
+	transition: width 2s;
 	-webkit-transition-timing-function: linear;
 	transition-timing-function: linear;
 }
@@ -368,7 +368,7 @@ body {
 	left: 0;
 	background: url("images/bar-chart.svg") no-repeat scroll center center / 50% auto rgba(0,0,0,0);
 	background-color: #9999FF;
-	
+
 }
 .b2 {
 	left: 25%;
