@@ -40,6 +40,13 @@ a:hover {
 	color: #fff;
 }
 
+.mainTitle {
+	text-align: center;
+	position: fixed;
+	font-family: monospace;
+	font-size: 10em;
+}
+
 .container { height: 100%; }
 
 .bl-main {
@@ -112,9 +119,17 @@ a:hover {
 	width: 100%;
 	font-size: 1.8em;
 	letter-spacing: 2px;
-	font-weight: 700;
+	font-weight: bold;
 	text-transform: uppercase;
 }
+
+	.sectText {
+	 font-family: monospace;
+	 vertical-align: top;
+	 display: inline-block;
+	 text-align: center;
+	 width: 120px;
+	}
 
 .bl-icon {
 	font-family: 'icomoon';
