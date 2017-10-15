@@ -2,16 +2,28 @@
 window.onload = function drawChart() {
 
 
+	var theUrl = "http://www.maniadb.com/api/search/apple/?sr=album&display=20&key=[apikey]&v=0.5";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send();
+    console.log(xmlHttp.status);
+    console.log(xmlHttp.statusText);
+    
+    xmlDocument = xmlHttp.send();
+    console.log(xmlDocument.childNodes['title'].textContent);
+
+
 	var today = new Date();
 	var date = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
 
 
 	const Melon = require('melon-chart-api');
-	Melon(date, { cutLine: 5 }).daily().then(chartData => {
+	Melon(date, { cutLine: 50 }).daily().then(chartData => {
 	  var dataDump = chartData['data'];
 	  var titles = [];
 	  var artists = [];
 	  var albums = [];
+	  var albumArt = [];
 
 	  for (track of dataDump) {
 	  	titles.push(track['title']);
@@ -28,6 +40,7 @@ window.onload = function drawChart() {
 	  console.log(chart_list);
 	})
 }
+
 
 },{"melon-chart-api":119}],2:[function(require,module,exports){
 module.exports = {
