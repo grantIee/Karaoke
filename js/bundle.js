@@ -23,6 +23,7 @@ window.onload = function drawChart() {
 	  	chart_item = document.createElement('li');
 	  	chart_item.innerHTML = artists[i] + " " + albums[i] + " " + titles[i] + 
 	  	" " + albumCover(albums[i]);
+	  	break;
 	  	chart_list.appendChild(chart_item);
 	  }
 	  console.log(chart_list);
@@ -40,9 +41,12 @@ function albumCover(albums) {
     		var text = xmlHttp.responseText;
     		var parser = new DOMParser();
     		var xmlDoc = parser.parseFromString(text,"text/xml");
+    		console.log(text);
+    		thumb_url = document.querySelector('#collapsible124 > div.expanded > div.collapsible-content > span');
+    		// console.log(thumb_url);
+    		var someshit = xmlDoc.getElementsByTagName("maniadb:coverart")[0];
+    		someshit_2 = someshit.childNodes[1].childNodes[5];
 
-    		document.getElementById('chart_list').innerHTML = 
-    		xmlDoc.getElementsByTagName("maniadb:coverart");
     	}
     	else if(xmlHttp.readyState == 4 && xmlHttp.status == 500) {
     		alert("Please try again!");
