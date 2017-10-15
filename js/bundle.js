@@ -1,21 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 window.onload = function drawChart() {
 
-
-	var theUrl = "http://www.maniadb.com/api/search/apple/?sr=album&display=20&key=[apikey]&v=0.5";
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send();
-    console.log(xmlHttp.status);
-    console.log(xmlHttp.statusText);
-    
-    xmlDocument = xmlHttp.send();
-    console.log(xmlDocument.childNodes['title'].textContent);
-
-
 	var today = new Date();
 	var date = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
-
 
 	const Melon = require('melon-chart-api');
 	Melon(date, { cutLine: 50 }).daily().then(chartData => {
@@ -34,12 +21,37 @@ window.onload = function drawChart() {
 	  chart_list = document.getElementById('chart_list');
 	  for (var i = 0; i < titles.length; i++) {
 	  	chart_item = document.createElement('li');
-	  	chart_item.innerHTML = artists[i] + " " + albums[i] + " " + titles[i] + " ";
+	  	chart_item.innerHTML = artists[i] + " " + albums[i] + " " + titles[i] + 
+	  	" " + albumCover(albums[i]);
 	  	chart_list.appendChild(chart_item);
 	  }
 	  console.log(chart_list);
 	})
 }
+
+function albumCover(albums) {
+    var xmlHttp = new XMLHttpRequest(),
+    	theUrl = "http://www.maniadb.com/api/search/" + albums + "/?sr=album&display=1&key=[apikey]&v=0.5",
+    	method = "GET";
+
+    xmlHttp.open(method, theUrl, true); 
+    xmlHttp.onreadystatechange = function() {
+    	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+    		var text = xmlHttp.responseText;
+    		var parser = new DOMParser();
+    		var xmlDoc = parser.parseFromString(text,"text/xml");
+
+    		document.getElementById('chart_list').innerHTML = 
+    		xmlDoc.getElementsByTagName("maniadb:coverart");
+    	}
+    	else if(xmlHttp.readyState == 4 && xmlHttp.status == 500) {
+    		alert("Please try again!");
+    	}
+    };
+    xmlHttp.send();
+}
+
+
 
 
 },{"melon-chart-api":119}],2:[function(require,module,exports){
