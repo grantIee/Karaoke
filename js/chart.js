@@ -22,7 +22,6 @@ window.onload = function drawChart() {
 	  	chart_item = document.createElement('li');
 	  	chart_item.innerHTML = artists[i] + " " + albums[i] + " " + titles[i] + 
 	  	" " + albumCover(albums[i]);
-	  	break;
 	  	chart_list.appendChild(chart_item);
 	  }
 	  console.log(chart_list);
@@ -32,19 +31,22 @@ window.onload = function drawChart() {
 function albumCover(albums) {
     var xmlHttp = new XMLHttpRequest(),
     	theUrl = "http://www.maniadb.com/api/search/" + albums + "/?sr=album&display=1&key=[apikey]&v=0.5",
-    	method = "GET";
+    	method = "GET",
+    	fin = "";
 
     xmlHttp.open(method, theUrl, true); 
     xmlHttp.onreadystatechange = function() {
+    	fin = null;
     	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
     		var text = xmlHttp.responseText;
     		var parser = new DOMParser();
     		var xmlDoc = parser.parseFromString(text,"text/xml");
-    		console.log(text);
-    		thumb_url = document.querySelector('#collapsible124 > div.expanded > div.collapsible-content > span');
-    		// console.log(thumb_url);
-    		var someshit = xmlDoc.getElementsByTagName("maniadb:coverart")[0];
-    		someshit_2 = someshit.childNodes[1].childNodes[5].innerHTML;
+    		thumb_url = document.querySelector('#collapsible124 > div.expanded > div.collapsible-content > span');    		
+    		var origin = xmlDoc.getElementsByTagName("maniadb:coverart")[0];
+    		picurl = origin.childNodes[1].childNodes[5].innerHTML;
+    		var line = picurl;
+    		var re = /[<!CDATA\[\]>]/g;
+    		fin = line.replace(re,'');
 
     	}
     	else if(xmlHttp.readyState == 4 && xmlHttp.status == 500) {
@@ -52,6 +54,7 @@ function albumCover(albums) {
     	}
     };
     xmlHttp.send();
+    return fin;
 }
 
 
