@@ -20,45 +20,49 @@ window.onload = function drawChart() {
 	  chart_list = document.getElementById('chart_list');
 	  for (var i = 0; i < titles.length; i++) {
 	  	chart_item = document.createElement('li');
-	  	chart_item.innerHTML = artists[i] + " " + albums[i] + " " + titles[i] + 
-	  	" " + albumCover(albums[i]);
+	  	chart_item.innerHTML = artists[i] + " " + albums[i] + " " + titles[i];
+        albumCover(chart_item, albums[i]);
 	  	chart_list.appendChild(chart_item);
 	  }
-	  console.log(chart_list);
+	  // console.log(chart_list);
 	})
 }
 
-function albumCover(albums) {
+function albumCover(list_item, albums) {
     var xmlHttp = new XMLHttpRequest(),
     	theUrl = "http://www.maniadb.com/api/search/" + albums + "/?sr=album&display=1&key=[apikey]&v=0.5",
-    	method = "GET",
-    	fin = "";
+    	method = "GET"
 
-    xmlHttp.open(method, theUrl, true); 
-    xmlHttp.onreadystatechange = function() {
-        var fin = null;
+    xmlHttp.open(method, theUrl, true);
+    var to_feed = null;
+    xmlHttp.onreadystatechange = function(to_feed) {
     	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-    		var text = xmlHttp.responseText;
-    		var parser = new DOMParser();
-    		var xmlDoc = parser.parseFromString(text,"text/xml");
-    		thumb_url = document.querySelector('#collapsible124 > div.expanded > div.collapsible-content > span');    		
-    		var origin = xmlDoc.getElementsByTagName("maniadb:coverart")[0];
-            if(origin != null){
-    		    picurl = origin.childNodes[1].childNodes[5].innerHTML;
-        		var line = picurl;
-        		var re = /[<!CDATA\[\]>]/g;
-        		fin = line.replace(re,'');
-                console.log(fin);
-            }
-
-            return fin;
+    		parse_response(list_item, xmlHttp.responseText);
     	}
     	else if(xmlHttp.readyState == 4 && xmlHttp.status == 500) {
     		alert("Please try again!");
     	}
     };
     xmlHttp.send();
+    return to_feed;
 }
 
+function parse_response(list_item, text) {
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(text,"text/xml");
+    thumb_url = document.querySelector('#collapsible124 > div.expanded > div.collapsible-content > span');          
+    var origin = xmlDoc.getElementsByTagName("maniadb:coverart")[0];
+    if(origin != null){
+        picurl = origin.childNodes[1].childNodes[5].innerHTML;
+        var line = picurl;
+        var re = /[<!CDATA\[\]>]/g;
+        var fin = line.replace(re,'');
+        var album_cover = document.createElement('img');
+        album_cover.setAttribute('src', fin);
+        album_cover.setAttribute('width', 200);
+        album_cover.setAttribute('height', 200);
+        list_item.appendChild(album_cover);
+    }
+}
 
 
