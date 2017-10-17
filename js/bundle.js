@@ -37,25 +37,28 @@ function albumCover(albums) {
 
     xmlHttp.open(method, theUrl, true); 
     xmlHttp.onreadystatechange = function() {
-    	fin = null;
+        var fin = null;
     	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
     		var text = xmlHttp.responseText;
     		var parser = new DOMParser();
     		var xmlDoc = parser.parseFromString(text,"text/xml");
     		thumb_url = document.querySelector('#collapsible124 > div.expanded > div.collapsible-content > span');    		
     		var origin = xmlDoc.getElementsByTagName("maniadb:coverart")[0];
-    		picurl = origin.childNodes[1].childNodes[5].innerHTML;
-    		var line = picurl;
-    		var re = /[<!CDATA\[\]>]/g;
-    		fin = line.replace(re,'');
+            if(origin != null){
+    		    picurl = origin.childNodes[1].childNodes[5].innerHTML;
+        		var line = picurl;
+        		var re = /[<!CDATA\[\]>]/g;
+        		fin = line.replace(re,'');
+                console.log(fin);
+            }
 
+            return fin;
     	}
     	else if(xmlHttp.readyState == 4 && xmlHttp.status == 500) {
     		alert("Please try again!");
     	}
     };
     xmlHttp.send();
-    return fin;
 }
 
 
